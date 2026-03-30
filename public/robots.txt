@@ -1,0 +1,18 @@
+
+User-agent: *
+Allow: /
+Allow: /sobre
+Allow: /solucoes
+Allow: /solucoes/catalog-organizer
+Allow: /solucoes/customer-data-platform
+Allow: /solucoes/concierge
+Allow: /solucoes/resolve
+Allow: /solucoes/convert
+Allow: /solucoes/attendant
+Allow: /plataforma
+Allow: /casos-de-uso
+Allow: /carreiras
+Allow: /contato
+Allow: /agendamento
+
+Sitemap: https://example.com/sitemap.xml

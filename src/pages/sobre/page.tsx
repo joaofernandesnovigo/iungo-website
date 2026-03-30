@@ -1,0 +1,209 @@
+import { useEffect } from 'react';
+import Header from '../../components/feature/Header';
+import Footer from '../../components/feature/Footer';
+
+export default function Sobre() {
+  useEffect(() => {
+    // Update page title and meta tags
+    document.title = 'Sobre a Iungo Intelligence - Líderes em IA para Comércio Digital';
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Conheça a Iungo Intelligence, pioneiros em inteligência artificial para comércio digital. Nossa missão é democratizar o acesso à IA avançada e transformar dados em resultados excepcionais.');
+    }
+
+    // Add JSON-LD structured data
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "Sobre a Iungo Intelligence",
+      "description": "Pioneiros em inteligência artificial para comércio digital, transformando dados em resultados excepcionais",
+      "url": `${import.meta.env.VITE_SITE_URL || "https://example.com"}/sobre`,
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Iungo Intelligence",
+        "foundingDate": "2020",
+        "description": "Empresa líder em soluções de inteligência artificial para comércio digital",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. Brigadeiro Faria Lima, 1234 – 11º andar",
+          "addressLocality": "São Paulo",
+          "addressRegion": "SP",
+          "postalCode": "01451-001",
+          "addressCountry": "BR"
+        }
+      }
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+
+    return () => {
+      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
+
+  const values = [
+    {
+      title: 'Inovação',
+      description: 'Estamos sempre na vanguarda da tecnologia, desenvolvendo soluções que definem o futuro do comércio digital.',
+      icon: 'ri-lightbulb-line'
+    },
+    {
+      title: 'Excelência',
+      description: 'Comprometidos com a qualidade superior em cada linha de código e cada interação com nossos clientes.',
+      icon: 'ri-star-line'
+    },
+    {
+      title: 'Transparência',
+      description: 'Construímos relacionamentos baseados na confiança, com comunicação clara e processos transparentes.',
+      icon: 'ri-eye-line'
+    },
+    {
+      title: 'Impacto',
+      description: 'Focamos em gerar resultados reais e mensuráveis que transformam negócios e vidas.',
+      icon: 'ri-rocket-line'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      
+      {/* Hero Section */}
+      <header className="py-20 bg-iungo-navy text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Sobre a Iungo Intelligence
+            </h1>
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-iungo-light-gray">
+              Pioneiros em inteligência artificial para comércio digital, 
+              transformando dados em resultados excepcionais
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Mission Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <article>
+              <h2 className="text-3xl md:text-4xl font-bold text-iungo-navy mb-6">
+                Nossa Missão
+              </h2>
+              <p className="text-lg text-iungo-gray mb-6">
+                <strong>Democratizar o acesso à inteligência artificial avançada</strong> para empresas de todos os tamanhos, 
+                fornecendo uma plataforma unificada que transforma dados fragmentados em insights acionáveis 
+                e experiências excepcionais para o cliente.
+              </p>
+              <p className="text-lg text-iungo-gray">
+                Acreditamos que a verdadeira revolução do comércio digital acontece quando dados de produto, 
+                comportamento do cliente e orquestração de jornadas trabalham em perfeita sinergia, 
+                impulsionados por inteligência artificial de última geração.
+              </p>
+            </article>
+            <div className="relative">
+              <img 
+                src="https://readdy.ai/api/search-image?query=Modern%20office%20environment%20showing%20a%20diverse%20team%20of%20professionals%20collaborating%20around%20advanced%20AI%20technology%20displays%20and%20data%20visualization%20screens%2C%20with%20a%20clean%20and%20innovative%20workspace%20design%2C%20representing%20the%20mission%20of%20an%20AI%20company%2C%20bright%20and%20inspiring%20atmosphere&width=600&height=400&seq=mission-office&orientation=landscape"
+                alt="Nossa Missão - Equipe colaborando com tecnologia de IA"
+                title="Iungo Intelligence - Nossa Missão"
+                className="rounded-lg shadow-lg object-cover w-full h-80"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision Section */}
+      <section className="py-20 bg-iungo-light-gray">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <img 
+                src="https://readdy.ai/api/search-image?query=Futuristic%20digital%20commerce%20visualization%20with%20holographic%20data%20streams%2C%20AI%20neural%20networks%2C%20and%20interconnected%20global%20commerce%20nodes%2C%20representing%20the%20future%20vision%20of%20digital%20commerce%20powered%20by%20artificial%20intelligence%2C%20with%20a%20sophisticated%20blue%20and%20cyan%20color%20scheme&width=600&height=400&seq=vision-future&orientation=landscape"
+                alt="Nossa Visão - Futuro do comércio digital com IA"
+                title="Iungo Intelligence - Nossa Visão"
+                className="rounded-lg shadow-lg object-cover w-full h-80"
+              />
+            </div>
+            <article className="order-1 lg:order-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-iungo-navy mb-6">
+                Nossa Visão
+              </h2>
+              <p className="text-lg text-iungo-gray mb-6">
+                Ser a <strong>plataforma de inteligência artificial mais confiável e inovadora</strong> do mundo para 
+                comércio digital, estabelecendo novos padrões de excelência em personalização, 
+                automação e resultados de negócios.
+              </p>
+              <p className="text-lg text-iungo-gray">
+                Visualizamos um futuro onde cada interação comercial é inteligentemente otimizada, 
+                onde dados se transformam automaticamente em experiências memoráveis e onde 
+                empresas de qualquer porte podem competir no mais alto nível tecnológico.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-iungo-navy mb-4">
+              Nossos Valores
+            </h2>
+            <p className="text-xl text-iungo-gray max-w-3xl mx-auto">
+              Os princípios que guiam cada decisão e definem nossa cultura organizacional
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <article key={index} className="text-center">
+                <div className="w-16 h-16 bg-iungo-navy/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <i className={`${value.icon} text-2xl text-iungo-navy`}></i>
+                </div>
+                <h3 className="text-xl font-bold text-iungo-navy mb-4">{value.title}</h3>
+                <p className="text-iungo-gray">{value.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-iungo-navy text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-iungo-light-gray mb-2">500+</div>
+              <div className="text-iungo-light-gray">Clientes Ativos</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-iungo-light-gray mb-2">50M+</div>
+              <div className="text-iungo-light-gray">Transações Processadas</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-iungo-light-gray mb-2">99.9%</div>
+              <div className="text-iungo-light-gray">Uptime Garantido</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-iungo-light-gray mb-2">24/7</div>
+              <div className="text-iungo-light-gray">Suporte Especializado</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
