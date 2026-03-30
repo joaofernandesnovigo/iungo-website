@@ -59,6 +59,12 @@ export function useMetrics(): UseMetricsReturn {
       return;
     }
 
+    if (!supabase) {
+      setIsLoading(false);
+      setError('Supabase não configurado');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -305,7 +311,7 @@ export function useMetrics(): UseMetricsReturn {
 
   // Real-time subscription para atualizar métricas
   useEffect(() => {
-    if (!profile) return;
+    if (!profile || !supabase) return;
 
     const channel = supabase
       .channel('metrics-updates')
@@ -320,7 +326,7 @@ export function useMetrics(): UseMetricsReturn {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (supabase) supabase.removeChannel(channel);
     };
   }, [profile, fetchMetrics]);
 

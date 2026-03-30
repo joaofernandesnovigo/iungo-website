@@ -87,7 +87,12 @@ export default function LoginPage() {
 
     try {
       const { supabase } = await import('../lib/supabase');
-      
+
+      if (!supabase) {
+        setError('Supabase não configurado no .env.');
+        return;
+      }
+
       const { error: resendError } = await supabase.auth.resend({
         type: 'signup',
         email: email,

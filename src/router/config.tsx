@@ -1,4 +1,4 @@
-import { RouteObject, Navigate } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 import { lazy } from 'react';
 
 // Lazy load pages
@@ -25,22 +25,24 @@ const CursosRegistroPage = lazy(() => import('../pages/cursos/registro/page'));
 const MeusCursosPage = lazy(() => import('../pages/cursos/meus-cursos/page'));
 const NotFoundPage = lazy(() => import('../pages/NotFound'));
 
-// HD Pages
-import HDWelcomePage from '../HD/pages/WelcomePage';
-import HDLoginPage from '../HD/pages/LoginPage';
-import HDRegisterPage from '../HD/pages/RegisterPage';
-import HDForgotPasswordPage from '../HD/pages/ForgotPasswordPage';
-import HDAuthCallbackPage from '../HD/pages/AuthCallbackPage';
-import HDMyTicketsPage from '../HD/pages/MyTickets/page';
-import HDAllTicketsPage from '../HD/pages/AllTickets/page';
-import HDTicketDetailPage from '../HD/pages/TicketDetail/page';
-import HDAdminDashboard from '../HD/pages/AdminDashboard';
-import HDSettingsPage from '../HD/pages/Settings/page';
-import HDUnauthorizedPage from '../HD/pages/UnauthorizedPage';
-import HDAccountDisabledPage from '../HD/pages/AccountDisabledPage';
+// Helpdesk: tudo lazy para o site público carregar sem puxar o bundle do HD
+const HDWelcomePage = lazy(() => import('../HD/pages/WelcomePage'));
+const HDLoginPage = lazy(() => import('../HD/pages/LoginPage'));
+const HDRegisterPage = lazy(() => import('../HD/pages/RegisterPage'));
+const HDForgotPasswordPage = lazy(() => import('../HD/pages/ForgotPasswordPage'));
+const HDAuthCallbackPage = lazy(() => import('../HD/pages/AuthCallbackPage'));
+const HDMyTicketsPage = lazy(() => import('../HD/pages/MyTickets/page'));
+const HDAllTicketsPage = lazy(() => import('../HD/pages/AllTickets/page'));
+const HDTicketDetailPage = lazy(() => import('../HD/pages/TicketDetail/page'));
+const HDAdminDashboard = lazy(() => import('../HD/pages/AdminDashboard'));
+const HDSettingsPage = lazy(() => import('../HD/pages/Settings/page'));
+const HDUnauthorizedPage = lazy(() => import('../HD/pages/UnauthorizedPage'));
+const HDAccountDisabledPage = lazy(() => import('../HD/pages/AccountDisabledPage'));
 
-// HD Auth Component
-import { ProtectedRoute } from '../HD/components/auth/ProtectedRoute';
+const ProtectedRoute = lazy(async () => {
+  const mod = await import('../HD/components/auth/ProtectedRoute');
+  return { default: mod.ProtectedRoute };
+});
 
 const routes: RouteObject[] = [
   {

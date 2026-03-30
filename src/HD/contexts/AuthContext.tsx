@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User } from '@supabase/supabase-js';
+import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 
 // -----------------------------------------------------------------
@@ -19,6 +19,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   isLoading: boolean;
   isInitialized: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
@@ -61,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log('📡 HD Auth - Fazendo query no Supabase...');
       
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('profiles')
         .select('*')
         .eq('id', userId)
@@ -124,11 +125,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // -----------------------------------------------------------------
   useEffect(() => {
     console.log('🔵 HD Auth - Iniciando...');
-    
+
+    if (!supabase) {
+      console.warn('🔵 HD Auth - Supabase ausente; auth desativada.');
+      setIsLoading(false);
+      setIsInitialized(true);
+      return;
+    }
+
+    const client = supabase;
+
     const initAuth = async () => {
       try {
         console.log('🔵 HD Auth - Obtendo sessão...');
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await client.auth.getSession();
 
         if (error) {
           console.error('❌ HD Auth - Erro ao obter sessão:', error);
@@ -162,7 +172,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // -----------------------------------------------------------------
     // Auth State Listener
     // -----------------------------------------------------------------
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = client.auth.onAuthStateChange(
       async (event, session) => {
         console.log('🔄 HD Auth - Evento:', event);
 
@@ -198,8 +208,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Sign In
   // -----------------------------------------------------------------
   const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
+    if (!supabase) {
+      return {
+        error:
+          'Supabase não configurado. Adicione VITE_PUBLIC_SUPABASE_URL e VITE_PUBLIC_SUPABASE_ANON_KEY no .env',
+      };
+    }
+
     console.log('🔐 HD Auth - Tentando login:', email);
-    
+
     try {
       console.log('📡 HD Auth - Chamando signInWithPassword...');
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -243,6 +260,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string,
     fullName: string
   ): Promise<{ error: string | null }> => {
+    if (!supabase) {
+      return {
+        error:
+          'Supabase não configurado. Adicione VITE_PUBLIC_SUPABASE_URL e VITE_PUBLIC_SUPABASE_ANON_KEY no .env',
+      };
+    }
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -273,6 +297,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Sign Out
   // -----------------------------------------------------------------
   const signOut = async () => {
+    if (!supabase) {
+      setUser(null);
+      setProfile(null);
+      return;
+    }
+
     try {
       await supabase.auth.signOut();
       setUser(null);
@@ -288,6 +318,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateProfile = async (updates: Partial<Profile>): Promise<{ error: string | null }> => {
     if (!user) {
       return { error: 'Usuário não autenticado' };
+    }
+
+    if (!supabase) {
+      return {
+        error:
+          'Supabase não configurado. Adicione VITE_PUBLIC_SUPABASE_URL e VITE_PUBLIC_SUPABASE_ANON_KEY no .env',
+      };
     }
 
     try {
@@ -318,6 +355,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     profile,
     isAuthenticated: !!user && !!profile,
+    isAdmin: profile?.role === 'admin',
     isLoading,
     isInitialized,
     signIn,

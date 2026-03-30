@@ -4,16 +4,41 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './router';
 import { AuthProvider } from './HD/contexts/AuthContext';
 
+const routerBasename =
+  (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '') || undefined;
+
 function App() {
   return (
-    <BrowserRouter basename={__BASE_PATH__}>
+    <BrowserRouter basename={routerBasename}>
       <AuthProvider>
         <Suspense
           fallback={
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-              <div className="text-center">
-                <div className="w-10 h-10 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="text-gray-500 mt-3 text-sm">Carregando...</p>
+            <div
+              style={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#f9fafb',
+                fontFamily: 'system-ui, sans-serif',
+              }}
+            >
+              <div style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    margin: '0 auto',
+                    border: '3px solid #e5e7eb',
+                    borderTopColor: '#14b8a6',
+                    borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite',
+                  }}
+                />
+                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                <p style={{ color: '#6b7280', marginTop: 12, fontSize: 14 }}>
+                  Carregando…
+                </p>
               </div>
             </div>
           }
